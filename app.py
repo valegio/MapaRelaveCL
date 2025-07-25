@@ -11,7 +11,7 @@ from shapely.geometry import Point
 from folium.plugins import MarkerCluster
 from folium.plugins import FastMarkerCluster
 
-# st.cache_data.clear()
+st.cache_data.clear()
 
 # Configuración de la página
 st.set_page_config(
