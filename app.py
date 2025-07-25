@@ -198,6 +198,9 @@ def initialize_data():
     relaves_gdf_wgs84 = get_crs_transformed(relaves_gdf, 4326, cache_key="relaves_wgs84")
     regiones_gdf_wgs84 = get_crs_transformed(regiones_gdf, 4326, cache_key="regiones_wgs84")
     
+    relaves_gdf_wgs84['Region'] = relaves_gdf_wgs84['REGION'].map(ROMANO_A_REGION)
+    relaves_gdf_utm['Region'] = relaves_gdf_utm['REGION'].map(ROMANO_A_REGION)
+    
     return {
         'relaves_utm': relaves_gdf_utm,
         'regiones_utm': regiones_gdf_utm,
@@ -213,6 +216,7 @@ with st.spinner('Cargando datos geográficos...'):
     regiones_gdf_utm = data['regiones_utm']
     relaves_gdf_wgs84 = data['relaves_wgs84']
     regiones_gdf_wgs84 = data['regiones_wgs84']
+
 
 # Interfaz de usuario
 address = st.text_input('Ingresa una dirección en Chile:', 
