@@ -1,0 +1,8 @@
+streamlit==1.29.0
+geopandas==0.13.2
+pandas==2.1.4
+requests==2.31.0
+folium==0.14.0
+leafmap==0.25.1
+streamlit-folium==0.15.1
+shapely==2.0.2
