@@ -188,7 +188,7 @@ def create_full_map(_relaves_gdf):
     
     return m
     
-@st.cache_data(persist=True)
+
 def initialize_data():
     """Inicializa todos los datos necesarios de una vez"""
     relaves_gdf = load_data('Relaves_Chile')
@@ -216,7 +216,9 @@ with st.spinner('Cargando datos geográficos...'):
     regiones_gdf_utm = data['regiones_utm']
     relaves_gdf_wgs84 = data['relaves_wgs84']
     regiones_gdf_wgs84 = data['regiones_wgs84']
+    
 st.write(relaves_gdf_wgs84.head())
+
 relaves_gdf_wgs84['Region'] = relaves_gdf_wgs84['REGION'].map(ROMANO_A_REGION)
 relaves_gdf_utm['Region'] = relaves_gdf_utm['REGION'].map(ROMANO_A_REGION)
 
