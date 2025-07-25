@@ -84,15 +84,25 @@ def geocode(query):
             return (lat, lon)
     return None
 
-@st.cache_data(persist=True)  
+# IDs de Google Drive para los archivos .parquet
+DRIVE_FILE_IDS = {
+    'Regiones_Chile': '1Cp_3R_VjV--bYgzwRF_dl8MwOtmincod',  # depositos.parquet
+    'Relaves_Chile': '11V8HQvoDBZpkORoj9lhXB7vzr16XLYTn'     # plantas.parquet
+}
+
+@st.cache_data(persist=True)
 def load_data(file_key):
-    """Carga los datos geoespaciales desde archivos parquet"""
-    gdf = gpd.read_parquet(DATA_FILES[file_key])
+    """Descarga y carga el archivo Parquet desde Google Drive"""
+    file_name = f"{file_key}.parquet"
+    file_id = DRIVE_FILE_IDS[file_key]
     
-    if file_key == 'relaves':
-        gdf['Region'] = gdf['REGION'].map(ROMANO_A_REGION)
+    # Descargar si no existe localmente
+    if not os.path.exists(file_name):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, file_name, quiet=False)
     
-    return gdf
+    # Cargar el Parquet
+    return gpd.read_parquet(file_name)
  
 @st.cache_data(ttl=3600, persist=True)
 def get_crs_transformed(_gdf, epsg, cache_key=None):
