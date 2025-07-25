@@ -1,5 +1,3 @@
-import os
-import gdown
 import streamlit as st
 import geopandas as gpd
 import pandas as pd
@@ -10,6 +8,8 @@ from streamlit_folium import st_folium
 from shapely.geometry import Point
 from folium.plugins import MarkerCluster
 from folium.plugins import FastMarkerCluster
+import gdown
+import os
 
 st.cache_data.clear()
 
@@ -39,7 +39,7 @@ st.html("""
 """)
 
 # Constantes
-ORS_API_KEY = st.secrets['ORS_API_KEY']
+ORS_API_KEY = '5b3ce3597851110001cf6248b82098e7825642f189f0dacb48076d86'
 DATA_FILES = {
     'relaves': 'Relaves_Chile.parquet',
     'regiones': 'Regiones_Chile.parquet'
@@ -86,10 +86,12 @@ def geocode(query):
             return (lat, lon)
     return None
 
+
+
 # IDs de Google Drive para los archivos .parquet
 DRIVE_FILE_IDS = {
-    'Relaves_Chile': '1Cp_3R_VjV--bYgzwRF_dl8MwOtmincod',  
-    'Regiones_Chile': '11V8HQvoDBZpkORoj9lhXB7vzr16XLYTn'    
+    'Relaves_Chile': '1Cp_3R_VjV--bYgzwRF_dl8MwOtmincod', 
+    'Regiones_Chile': '11V8HQvoDBZpkORoj9lhXB7vzr16XLYTn'     
 }
 
 @st.cache_data(persist=True)
@@ -188,7 +190,7 @@ def create_full_map(_relaves_gdf):
     
     return m
     
-
+@st.cache_data(persist=True)
 def initialize_data():
     """Inicializa todos los datos necesarios de una vez"""
     relaves_gdf = load_data('Relaves_Chile')
@@ -199,8 +201,10 @@ def initialize_data():
     regiones_gdf_utm = get_crs_transformed(regiones_gdf, 32719, cache_key="regiones_utm")
     relaves_gdf_wgs84 = get_crs_transformed(relaves_gdf, 4326, cache_key="relaves_wgs84")
     regiones_gdf_wgs84 = get_crs_transformed(regiones_gdf, 4326, cache_key="regiones_wgs84")
-
     
+    relaves_gdf_wgs84['Region'] = relaves_gdf_wgs84['REGION'].map(ROMANO_A_REGION)
+    relaves_gdf_utm['Region'] = relaves_gdf_utm['REGION'].map(ROMANO_A_REGION)
+
     return {
         'relaves_utm': relaves_gdf_utm,
         'regiones_utm': regiones_gdf_utm,
@@ -216,11 +220,8 @@ with st.spinner('Cargando datos geográficos...'):
     regiones_gdf_utm = data['regiones_utm']
     relaves_gdf_wgs84 = data['relaves_wgs84']
     regiones_gdf_wgs84 = data['regiones_wgs84']
-    
-st.write(relaves_gdf_wgs84.head())
 
-relaves_gdf_wgs84['Region'] = relaves_gdf_wgs84['REGION'].map(ROMANO_A_REGION)
-relaves_gdf_utm['Region'] = relaves_gdf_utm['REGION'].map(ROMANO_A_REGION)
+    
 
 # Interfaz de usuario
 address = st.text_input('Ingresa una dirección en Chile:', 
@@ -235,6 +236,8 @@ if address:
             st.success(f'📍 Ubicación encontrada: {lat:.5f}, {lon:.5f}')
             
             # Buscar región 
+            
+            
             region_encontrada = find_region_for_point(lat, lon, regiones_gdf_wgs84)
             
             if region_encontrada is not None and 'Region' in region_encontrada:
@@ -414,32 +417,9 @@ st.markdown("""
     Catastro de Depósitos de Relaves en Chile (2024)
     """)
     
-# Footer
-st.markdown("---")
-
-# Columnas para el footer
-col1, col2 = st.columns([3, 1])
-
-with col1:
-    st.markdown("""
-    **Desarrollado por**  
-    Valentina Giovanetti  
-    """)
-    
-with col2:
-    st.markdown("""
-        [Contacto](mailto:valentina.giovanetti@ug.uchile.cl)  
-    [Linkedin](https://www.linkedin.com/in/valentinagiovanetti/)  
-    """)
-
 # Estilo CSS adicional
 st.markdown("""
 <style>
-footer {visibility: hidden;}
-.st-emotion-cache-1q7spjk {
-    padding-bottom: 1rem;
-}
-
 /* Estilos responsive para móviles */
 @media screen and (max-width: 768px) {
     .st-emotion-cache-1q7spjk {
