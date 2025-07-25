@@ -37,7 +37,7 @@ st.html("""
 """)
 
 # Constantes
-ORS_API_KEY = st.secret('ORS_API_KEY')
+ORS_API_KEY = st.secrets['ORS_API_KEY']
 DATA_FILES = {
     'relaves': 'Relaves_Chile.parquet',
     'regiones': 'Regiones_Chile.parquet'
