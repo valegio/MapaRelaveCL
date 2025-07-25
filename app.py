@@ -217,8 +217,8 @@ with st.spinner('Cargando datos geográficos...'):
     relaves_gdf_wgs84 = data['relaves_wgs84']
     regiones_gdf_wgs84 = data['regiones_wgs84']
 
-relaves_gdf_wgs84['Region'] = relaves_gdf_wgs84['REGION'].map(ROMANO_A_REGION)
-relaves_gdf_utm['Region'] = relaves_gdf_utm['REGION'].map(ROMANO_A_REGION)
+relaves_gdf_wgs84['Region'] = relaves_gdf_wgs84['REGION '].map(ROMANO_A_REGION)
+relaves_gdf_utm['Region'] = relaves_gdf_utm['REGION '].map(ROMANO_A_REGION)
 
 # Interfaz de usuario
 address = st.text_input('Ingresa una dirección en Chile:', 
