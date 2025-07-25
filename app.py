@@ -88,8 +88,8 @@ def geocode(query):
 
 # IDs de Google Drive para los archivos .parquet
 DRIVE_FILE_IDS = {
-    'Regiones_Chile': '1Cp_3R_VjV--bYgzwRF_dl8MwOtmincod',  
-    'Relaves_Chile': '11V8HQvoDBZpkORoj9lhXB7vzr16XLYTn'    
+    'Relaves_Chile': '1Cp_3R_VjV--bYgzwRF_dl8MwOtmincod',  
+    'Regiones_Chile': '11V8HQvoDBZpkORoj9lhXB7vzr16XLYTn'    
 }
 
 @st.cache_data(persist=True)
