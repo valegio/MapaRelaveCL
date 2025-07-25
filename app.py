@@ -189,8 +189,8 @@ def create_full_map(_relaves_gdf):
 @st.cache_data(persist=True)
 def initialize_data():
     """Inicializa todos los datos necesarios de una vez"""
-    relaves_gdf = load_data('relaves')
-    regiones_gdf = load_data('regiones')
+    relaves_gdf = load_data('Relaves_Chile')
+    regiones_gdf = load_data('Regiones_Chile')
     
     # Transformaciones de coordenadas
     relaves_gdf_utm = get_crs_transformed(relaves_gdf, 32719, cache_key="relaves_utm")
