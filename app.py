@@ -163,7 +163,7 @@ def create_full_map(_relaves_gdf):
     m = folium.Map(
         location=[-35.675147, -71.542969],
         zoom_start=5,
-        tiles='OpenStreetMap'
+        tiles='Stadia.AlidadeSatellite'
     )
     
     # Preparar datos
@@ -317,7 +317,7 @@ if address:
                     m = folium.Map(
                         location=[lat, lon],
                         zoom_start=12,
-                        tiles='OpenStreetMap'
+                        tiles='Stadia.AlidadeSatellite'
                     )
                     
                     # Añadir marcador de la dirección ingresada
