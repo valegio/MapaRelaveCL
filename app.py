@@ -11,7 +11,7 @@ from folium.plugins import FastMarkerCluster
 import gdown
 import os
 
-st.cache_data.clear()
+# st.cache_data.clear()
 
 # Configuración de la página
 st.set_page_config(
@@ -236,8 +236,6 @@ if address:
             st.success(f'📍 Ubicación encontrada: {lat:.5f}, {lon:.5f}')
             
             # Buscar región 
-            
-            
             region_encontrada = find_region_for_point(lat, lon, regiones_gdf_wgs84)
             
             if region_encontrada is not None and 'Region' in region_encontrada:
@@ -313,7 +311,7 @@ if address:
                     # Mapa
                     st.subheader("Mapa de ubicación")
                     
-                    # Usar folium directamente
+                    # Crear mapa
                     m = folium.Map(
                         location=[lat, lon],
                         zoom_start=12,
@@ -348,7 +346,7 @@ if address:
                     bounds = [[lat, lon], [relave_lat, relave_lon]]
                     m.fit_bounds(bounds, padding=[20, 20])
                     
-                    # Añadir otros relaves cercanos (limitado para rendimiento)
+                    # Añadir otros relaves cercanos
                     if len(relaves_cercanos) > 1:
                         for idx, relave in relaves_region_wgs84.iterrows():  
                                                  
@@ -397,10 +395,10 @@ if not address:
     with cols[2]:
         st.metric("Empresas mineras", relaves_gdf_wgs84['NOMBRE_EMPRESA_O_PRODUCTOR_MINERO'].nunique())
     
-    # Mapa general optimizado
+    # Mapa general 
     st.subheader("Mapa general de relaves mineros")
     
-    # Obtener mapa cacheado (con todos los relaves)
+    # Obtener mapa cacheado
     m_general = create_full_map(relaves_gdf_wgs84)
 
     map_output = st_folium(
