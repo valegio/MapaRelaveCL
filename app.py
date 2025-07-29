@@ -94,7 +94,7 @@ DRIVE_FILE_IDS = {
     'Regiones_Chile': '11V8HQvoDBZpkORoj9lhXB7vzr16XLYTn'     
 }
 
-@st.cache_data(persist=True)
+@st.cache_data(ttl=3600)
 def load_data(file_key):
     """Descarga y carga el archivo Parquet desde Google Drive"""
     file_name = f"{file_key}.parquet"
@@ -144,7 +144,7 @@ def calculate_distances_to_relaves(lat, lon, _relaves_region_utm, region_name):
     
     return relaves_cercanos
 
-@st.cache_data(persist=True)
+@st.cache_data(ttl=3600)
 def create_full_map(_relaves_gdf):
     def create_icon_callback(icon_name="map-marker", markerColor="red"):
         return f"""\
@@ -190,7 +190,7 @@ def create_full_map(_relaves_gdf):
     
     return m
     
-@st.cache_data(persist=True)
+@st.cache_data(ttl=3600)
 def initialize_data():
     """Inicializa todos los datos necesarios de una vez"""
     relaves_gdf = load_data('Relaves_Chile')
